@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My account</title>
+
+</head>
+<body>
+    <h3>Edit my account</h3>
+    <div class="user_links">
+        <a href = "/home">Back</a>
+        <a href = "/logout"><button>Logout</button></a>
+    </div>
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+                <li>{% if message.tags %} {{ message }} {% endif %}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+        <form action="/edit_account/{{ this_user.id }}" method="POST">
+            {% csrf_token %}
+            <p><label for="fname">First name</label>
+            <input type="text" name="fname" value ="{{this_user.fname}}" required></p>
+            <p><label for="lname">Last name</label>
+            <input type="text" name="lname" value ="{{this_user.lname}}" required></p>
+            <p><label for="email">Email</label>
+            <input type="text" name="email" value ="{{this_user.email}}" required></p>
+            <input type="hidden" name="password">
+            <input type="hidden" name="confirm">
+            <button>Update</button>
+        </form>
+</body>
+</html>

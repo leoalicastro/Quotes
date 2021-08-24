@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h4 class="name">{{user.fname}} {{user.lname}}'s quotes</h4>
+    <div class="user_links">
+        <a href = "/home">Back</a>
+        <a href = "/logout"><button>Logout</button></a>
+    </div>
+    {% for quote in quotes %}
+        {% if user.id == quote.uploaded_by.id %}
+        <div class="user_quotes">
+            <p>{{quote.author}}: "{{quote.quote}}"</p>
+        </div>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>

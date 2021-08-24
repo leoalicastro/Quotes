@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belt</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="register">
+            <h2>Register</h2>
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{% if message.tags %} {{ message }} {% endif %}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <form action ="/register" method="POST">
+                {% csrf_token %}
+                <label for ="fname">First name</label>
+                <input type ="text" name="fname" required>
+                <p><label for ="lname">Last name</label>
+                <input type ="text" name="lname" required></p>
+                <p><label for ="email">Email</label>
+                <input type ="text" name="email" required></p>
+                <p><label for ="password">Password</label>
+                <input type ="text" name="password" required></p>
+                <p><label for ="confirm">Confirm password</label>
+                <input type ="text" name="confirm" required></p>
+                <button>Register</button>
+            </form>
+        </div>
+        <div class="login">
+            <h2>Login</h2>
+            <form action ="/login" method="POST">
+                {% csrf_token %}
+                <label for ="logemail">Email</label>
+                <input type ="text" name="logemail">
+                <p><label for ="logpassword">Password</label>
+                <input type ="text" name="logpassword"></p>
+                <button>Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

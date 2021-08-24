@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="quotescontainer">
+            Welcome {{this_user.fname}} {{this_user.lname}}!
+            <div class="links">
+                <a href="/my_account/{{this_user.id}}">Edit My Account</a>
+                <a href="/logout"><button>Logout</button></a>
+            </div>
+            <h3 id="quotes_h3">Quotes</h3>
+                <p>{% for quote in quotes %}
+                    <div class="quotes">
+                        {{quote.author}}: {{quote.quote}}</p>
+                        <p>Posted by: <a href="/user/{{ quote.uploaded_by.id }}"> {{quote.uploaded_by.fname}} {{quote.uploaded_by.lname}}</a></p>
+                        {% if this_user.id == quote.uploaded_by.id %}
+                            <p>
+                                <a href="/delete/{{quote.id}}">Delete</a>
+                                <a href="/edit_quote/{{quote.id}}">Edit</a>
+                        {% endif %}
+                        {% if this_user not in quote.liked_by.all %}
+                            <a href="like_quote/{{quote.id}}">Like</a>
+                        {% endif %}
+                        {% if this_user in quote.liked_by.all %}
+                            <a href="unlike_quote/{{quote.id}}">Unlike</a>
+                        {% endif %}
+                            {{quote.liked_by.all.count}}
+                            </p>
+                    </div>
+                {% endfor %}
+        </div>
+        <div class = "addquote">
+            <h4>Add a quote!</h4>
+            <form action="/add_quote" method="POST">
+                {% csrf_token %}
+                <label for="author">Author</label>
+                <input type="text" name="author" required>
+                <p><label for="quote">Quote</label>
+                <textarea name="quote" id="quote_text"></textarea></p>
+                <input type="hidden" name="uploaded_by">
+                <p><button id ="submit">Submit</button></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
